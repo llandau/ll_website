@@ -5,6 +5,8 @@
 
 // https://developer.mozilla.org/en-US/docs/Learn/Getting_started_with_the_web/JavaScript_basics
 
+// file:///Users/leo_landau/Documents/leolandau.com/index.html
+
 // can maybe do svg's
 // 
 
