@@ -1,13 +1,13 @@
-import logo from './logo.svg';
+import TextSvg from './TextSvg.js';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
+        {TextSvg()}
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Hello Leo.
         </p>
         <a
           className="App-link"
