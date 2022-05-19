@@ -8,7 +8,7 @@ function App() {
       <header className="App-header">
         <img src={logo} alt="ll logo" />
       </header>
-      {MatterComponent()}
+      <MatterComponent />
     </div>
   );
 }

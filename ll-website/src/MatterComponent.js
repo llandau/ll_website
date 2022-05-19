@@ -1,112 +1,102 @@
-import { useEffect, useRef } from 'react'
-import { Engine, Render, Bodies, World, Runner } from 'matter-js'
+import { PureComponent, useEffect, useRef, createRef } from 'react'
+import { Engine, Render, Bodies, World, Runner, Mouse, MouseConstraint, Events } from 'matter-js'
 import './MatterComponent.css';
 
-// ref: https://www.fabiofranchino.com/blog/how-to-use-matter-js-in-react-functional-component/
-// ref: https://pusher.com/tutorials/react-native-pong-game/
-// ref: https://github.com/liabru/matter-js/blob/master/examples/svg.js
 
-function MatterComponent (props) {
-  const scene = useRef()
-  const isPressed = useRef(false)
-  const engine = useRef(Engine.create())
+class MatterComponent extends PureComponent {
 
-  const ballSettings = {
-    inertia: 0,
-    friction: 0,
-    frictionStatic: 0,
-    frictionAir: 0,
-    restitution: 1
-  };
-
-  const wallSettings = {
-    isStatic: true
-  };
-
-  useEffect(() => {
-    const cw = document.body.clientWidth
-    const ch = document.body.clientHeight
-
-    console.log("cw: " + cw) // 896
-    console.log("ch: " + ch) // 509
-
-    const render = Render.create({
-      element: scene.current,
-      engine: engine.current,
-      options: {
-        width: cw,
-        height: ch,
-        wireframes: false,
-        background: 'transparent'
-      }
-    })
-    var boxA = Bodies.rectangle(400, 200, 80, 80);
-    var boxB = Bodies.rectangle(450, 50, 80, 80);
-    const ball = Bodies.circle(200, 200, 25, {...ballSettings})
-
-    World.add(engine.current.world, [
-      Bodies.rectangle(cw / 2, -10, cw, 20, {...wallSettings}),
-      Bodies.rectangle(-10, ch / 2, 20, ch, {...wallSettings}),
-      Bodies.rectangle(cw / 2, ch + 10, cw, 20, {...wallSettings}),
-      Bodies.rectangle(cw + 10, ch / 2, 20, ch, {...wallSettings}),
-      boxA,
-      boxB,
-      ball, 
-    ])
-
-    Engine.run(engine.current)
-    Render.run(render)
-
-    // const runner = Runner.create()
-    // Runner.run(runner, engine)
-
-    return () => {
-      Render.stop(render)
-      World.clear(engine.current.world)
-      Engine.clear(engine.current)
-      render.canvas.remove()
-      render.canvas = null
-      render.context = null
-      render.textures = {}
+    constructor(props) {
+        super(props);
+        this.state = {}
+        this.scene = createRef();
+        this.isRunning = false
     }
-  }, [])
 
-  const handleDown = () => {
-    isPressed.current = true
-  }
+    componentDidMount() {
+        if (this.isRunning) { return; }
+        console.log("componentDidMount")
 
-  const handleUp = () => {
-    isPressed.current = false
-  }
+        const engine = Engine.create();
 
-  const handleAddCircle = e => {
-    if (isPressed.current) {
-      const ball = Bodies.circle(
-        e.clientX,
-        e.clientY,
-        10 + Math.random() * 30,
-        {
-          mass: 10,
-          restitution: 0.9,
-          friction: 0.005,
-          render: {
-            fillStyle: '#0000ff'
-          }
+        const cw = document.body.clientWidth
+        const ch = document.body.clientHeight
+    
+        console.log("cw: " + cw) // 896
+        console.log("ch: " + ch) // 509
+
+        const render = Render.create({
+            element: this.scene.current,
+            engine: engine,
+            options: {
+                width: cw,
+                height: ch,
+                wireframes: false,
+                background: "transparent",
+            }
+        });
+
+        const ballSettings = {
+            inertia: 0,
+            friction: 0,
+            frictionStatic: 0,
+            frictionAir: 0,
+            restitution: 1, // try: 0.5
+        };
+        
+        const wallSettings = {
+            isStatic: true
+        };
+
+        var boxA = Bodies.rectangle(400, 200, 80, 80);
+        var boxB = Bodies.rectangle(450, 50, 80, 80);
+        const ball = Bodies.circle(200, 200, 25, {...ballSettings})
+
+        World.add(engine.world, [
+          // walls
+          Bodies.rectangle(cw / 2, -10, cw, 20, {...wallSettings}),
+          Bodies.rectangle(-10, ch / 2, 20, ch, {...wallSettings}),
+          Bodies.rectangle(cw / 2, ch + 10, cw, 20, {...wallSettings}),
+          Bodies.rectangle(cw + 10, ch / 2, 20, ch, {...wallSettings}),
+        ]);
+    
+        World.add(engine.world, [boxA, boxB, ball]);
+    
+        // add mouse control
+        var mouse = Mouse.create(render.canvas),
+          mouseConstraint = MouseConstraint.create(engine, {
+            mouse: mouse,
+            constraint: {
+              stiffness: 0.2,
+              render: {
+                visible: false
+              }
+            }
+          });
+    
+        World.add(engine.world, mouseConstraint);
+    
+        // Events.on(mouseConstraint, "mousedown", function(event) {
+        //   World.add(engine.world, Bodies.circle(150, 50, 30, { restitution: 0.7 }));
+        // });
+    
+        Engine.run(engine);
+    
+        Render.run(render);
+
+        this.isRunning = true;
+
+        this.setState({
+            render: render
         })
-      World.add(engine.current.world, [ball])
     }
-  }
 
-  return (
-    <div
-      className="MatterComponent"
-      onMouseDown={handleDown}
-      onMouseUp={handleUp}
-      onMouseMove={handleAddCircle}
-    >
-      <div ref={scene} style={{ height: '450px' }} />
-    </div>
-  )
+    render() {
+        return (
+        <div className="MatterComponent">
+            <div ref={this.scene} style={{ height: '450px' }} />
+        </div>
+        )
+    }
 }
 
-export default MatterComponent
+export default MatterComponent;
