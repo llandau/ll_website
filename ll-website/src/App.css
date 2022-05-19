@@ -1,18 +1,63 @@
-.App {
-  text-align: center;
+
+body{
+	background: #A9D0F5;
+	color: #000B12;
+	font-family: Open Sans, Verdana, Tahoma, Arial, sans-serif;
+	line-height: 1.5;
+	text-align: left;
+	margin: 0 auto; 
+	width: 70%;
+  clear: both;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.App {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.App-header nav {
+	background: #888;
+	height: 40px;
+	line-height: 30px;
+	margin: 0 auto 30px auto;
+	text-align: center;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+	
+.App-header nav ul {
+	list-style: none;
+	margin: 0 auto;
+}
+
+.App-header nav ul li {
+	display: inline; 
+}
+	
+.App-header nav a:link, .App-header nav a:visited {
+	color: #fff;
+	display: inline-block;
+	height: 30px;
+	padding: 5px 23px;
+	text-decoration: none;
+}
+
+.App-header nav a:hover, .App-header nav a:active,
+.App-header nav .active a:link, .App-header nav .active a:visited {
+	background: #CF5C3F;
+	color: #fff;
+	text-shadow: none !important;
+}
+	
+.App-header nav li a {
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+.App-header img {
+	width: 40%;
+	height: auto;
+	margin: 3% 0;
 }
