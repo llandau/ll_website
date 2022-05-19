@@ -1,4 +1,3 @@
-import TextSvg from './TextSvg.js';
 import './App.css';
 import logo from './images/ll_logo.png';
 import MatterComponent from './MatterComponent.js';
