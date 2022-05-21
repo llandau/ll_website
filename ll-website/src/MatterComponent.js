@@ -109,7 +109,7 @@ class MatterComponent extends PureComponent {
         })
         // render.engine.world.bodies
 
-        this.addStrSvgToWorld(engine.world, "Lo");
+        this.addStrSvgToWorld(engine.world, "abcde");
     }
     
     addStrSvgToWorld(world, str) {
@@ -121,49 +121,49 @@ class MatterComponent extends PureComponent {
 
         const color = Common.choose(['#fff', '#f19648', '#f5d259', '#f55a3c', '#063e7b', '#ececd1']);
 
+        // let body = this.charToMatterBody(str, color)
+        // Composite.add(world, body)
+
         let bodies = []
         let constraints = []
         for (let i=0; i<str.length; i++) {
             let body = this.charToMatterBody(str[i], color)
             bodies.push(body)
             // if i==0, add to bodies array, don't add contraint yet
-            if (i==0) {
+            if (i === 0) {
                 continue
             }
-            let constraint = Constraint.create({
-                bodyA: bodies[i-1],
-                bodyB: body,
-                stiffness: 0.2,
-                damping: 0.1,
-                length: 70, 
-                render: { anchors: false, lineWidth: 0, visible: false },
-            });
-            constraints.push(constraint)
+            // add constraints to all prev chars in str
+            for (let j=i-1; j>=0; j--) {
+                let constraint = Constraint.create({
+                    bodyA: bodies[j],
+                    bodyB: body,
+                    length: 42 * (i-j), // multiply by 'distance' from i to j
+                    render: { anchors: false, lineWidth: 0, visible: false },
+                });
+                constraints.push(constraint)
+            }
         }
 
         Composite.add(world, [...bodies, ...constraints])
     }
 
-    charToMatterBody = (char, color) => {
+    charToMatterBody = (str, color) => {
         const pathEl = document.createElementNS(
             'http://www.w3.org/2000/svg',
             'path'
         )
-
-        char = char.toUpperCase()
-        if (letterSvgPaths[char] === undefined) {
-            console.log(char)
-            throw "char not found in letterSvgPaths"
+        if (letterSvgPaths[str] === undefined) {
+            console.log(str)
+            throw "str not found in letterSvgPaths"
         }
 
-        const letterPath = letterSvgPaths[char];
+        const letterPath = letterSvgPaths[str];
         pathEl.setAttribute('d', letterPath)
         
         const verticies = Svg.pathToVertices(pathEl, 2)
-      
-        // { collisionFilter: { group: -1 } } ..?
 
-        return Bodies.fromVertices(0, 0, Vertices.scale(verticies, 0.8, 0.8), {
+        return Bodies.fromVertices(50, 50, Vertices.scale(verticies, 0.8, 0.8), {
           render: {
             fillStyle: color,
             strokeStyle: color,

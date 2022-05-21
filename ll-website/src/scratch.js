@@ -40,4 +40,17 @@
 // https://github.com/liabru/matter-js/blob/master/examples/constraints.js
 // https://brm.io/matter-js/docs/classes/Constraint.html
 
+// tried stenciled fonts here: https://www.1001fonts.com/stenciled+google-web-fonts.html
+// didn't work well
+
+// tried to have multiple letters in a single svg-path; didn't work with Matter's rendering
+
+// can use Maker.js to render fonts to svg paths:
+// https://maker.js.org/
+// https://github.com/danmarshall/google-font-to-svg-path/blob/master/index.js
+// but it does not looks good on the screen
+
+// => do not use svg's, use shapes with text on top
+
+
 
