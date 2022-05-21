@@ -17,7 +17,7 @@
 // roboto, 500, Separate characters
 
 // https://dev.to/thormeier/throwing-around-text-kinetic-typography-part-2-it-defies-gravity-itself-thanks-to-matterjs-239e
-// https://github.com/liabru/matter-js/issues/321
+
 // https://mitsuyawatanabe.medium.com/physics-of-text-using-matter-js-f2b7a6ed3f3b
 
 // ref: https://www.fabiofranchino.com/blog/how-to-use-matter-js-in-react-functional-component/
@@ -52,5 +52,6 @@
 
 // => do not use svg's, use shapes with text on top
 
-
+// used this to support text on shapes in MyRenderer: 
+// https://github.com/liabru/matter-js/issues/321
 
