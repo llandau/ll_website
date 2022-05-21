@@ -1,7 +1,7 @@
 
-import {Page, PageCategories} from "page.js"
+import {Page, PageCategories} from "./page.js"
 
-pages = [
+export const pages = [
     new Page(
         "Java", 
         70, 

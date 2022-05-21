@@ -1,14 +1,19 @@
 import { PureComponent, createRef } from 'react';
 import { 
+    Common,
+    Composite, 
     Engine, 
     Runner,
     MouseConstraint,
     Mouse,
+    Body,
     Bodies, 
     World,
+    Events,
 } from 'matter-js';
 import { Render } from "./MyRenderer.js";
 import './MatterComponent.css';
+import { pages } from "./pages.js"
 
 class MatterComponent extends PureComponent {
 
@@ -42,47 +47,66 @@ class MatterComponent extends PureComponent {
             }
         });
 
-        const ballSettings = {
-            inertia: 0,
-            friction: 0,
-            frictionStatic: 0,
-            frictionAir: 0,
-            restitution: 1, // try: 0.5
-        };
-        
         const wallSettings = {
             isStatic: true
         };
 
-        var boxA = Bodies.rectangle(400, 200, 80, 80);
-        var boxB = Bodies.rectangle(450, 50, 80, 80);
-        const ballA = Bodies.circle(200, 200, 25, {...ballSettings})
-        const ballB = Bodies.circle(250, 50, 25, {
-            ...ballSettings,
-            restitution:0.95,
-            friction:0.05,
-            density:0.0005,
-            render: {
-                fillStyle: "#C44D58",
-                text:{
-                    content: "Test",
-                    color: "black",
-                    size : 24,
-                    family: "Roboto",
-                },
-            },
-        });
-
         World.add(engine.world, [
-          // walls
-          Bodies.rectangle(cw / 2, -10, cw, 20, wallSettings),
-          Bodies.rectangle(-10, ch / 2, 20, ch, wallSettings),
-          Bodies.rectangle(cw / 2, ch + 10, cw, 20, wallSettings),
-          Bodies.rectangle(cw + 10, ch / 2, 20, ch, wallSettings),
+            // walls, width is 40, with -20 'outside' the bounds
+            Bodies.rectangle(cw / 2, -20, cw, 40, wallSettings),
+            Bodies.rectangle(-20, ch / 2, 40, ch, wallSettings),
+            Bodies.rectangle(cw / 2, ch + 20, cw, 40, wallSettings),
+            Bodies.rectangle(cw + 20, ch / 2, 40, ch, wallSettings),
         ]);
-    
-        World.add(engine.world, [boxA, boxB, ballA, ballB]);
-    
+
+        const bodySettings = {
+            inertia: 0,
+            friction: 0.01,
+            frictionStatic: 0,
+            frictionAir: 0.01,
+            restitution: 0.9,
+            density: 0.0005,
+        };
+
+        for (let page of pages) {
+            console.log(page.name);
+            let bodyType = Common.choose(["rectangle", "circle"]);
+            let bodySize = page.name.length * 10;
+            let x_init = Common.random(0, cw);
+            let y_init = Common.random(0, ch);
+            let body;
+            if (bodyType === "rectangle") {
+                bodySize = bodySize * 2;
+                body = Bodies.rectangle(x_init, y_init, bodySize, bodySize, {
+                    ...bodySettings,
+                    id: page.id,
+                    render: {
+                        text:{
+                            content: page.name,
+                            color: "black",
+                            size : 24,
+                            family: "Roboto",
+                        },
+                    },
+                });
+            } else { // circle
+                body = Bodies.circle(x_init, y_init, bodySize, {
+                    ...bodySettings,
+                    id: page.id,
+                    render: {
+                        text:{
+                            content: page.name,
+                            color: "black",
+                            size : 24,
+                            family: "Roboto",
+                        },
+                    },
+                });
+            }
+
+            World.add(engine.world, body);
+        }
+
         // add mouse control
         const mouse = Mouse.create(render.canvas),
           mouseConstraint = MouseConstraint.create(engine, {
@@ -93,14 +117,14 @@ class MatterComponent extends PureComponent {
                 visible: false
               }
             }
-          });
+        });
     
         World.add(engine.world, mouseConstraint);
     
         // Events.on(mouseConstraint, "mousedown", function(event) {
         //   World.add(engine.world, Bodies.circle(150, 50, 30, { restitution: 0.7 }));
         // });
-    
+
         // run the renderer
         Render.run(render);
 
@@ -117,6 +141,23 @@ class MatterComponent extends PureComponent {
         })
         // render.engine.world.bodies
     }
+
+    explosion = function(engine) {
+        var bodies = Composite.allBodies(engine.world);
+
+        for (var i = 0; i < bodies.length; i++) {
+            var body = bodies[i];
+
+            if (!body.isStatic && body.position.y >= 500) {
+                var forceMagnitude = 0.05 * body.mass;
+
+                Body.applyForce(body, body.position, {
+                    x: (forceMagnitude + Common.random() * forceMagnitude) * Common.choose([1, -1]), 
+                    y: -forceMagnitude + Common.random() * -forceMagnitude
+                });
+            }
+        }
+    };
 
     render() {
         return (
