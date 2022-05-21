@@ -1,7 +1,6 @@
 import { PureComponent, createRef } from 'react';
 import { 
     Engine, 
-    Render, 
     Runner,
     Common,
     Composite,
@@ -14,6 +13,7 @@ import {
     Constraint
     // Events 
 } from 'matter-js';
+import { Render } from "./MyRenderer.js";
 import './MatterComponent.css';
 import { letterSvgPaths } from "./constants.js"
 
