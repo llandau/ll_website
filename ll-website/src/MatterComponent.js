@@ -63,7 +63,22 @@ class MatterComponent extends PureComponent {
 
         var boxA = Bodies.rectangle(400, 200, 80, 80);
         var boxB = Bodies.rectangle(450, 50, 80, 80);
-        const ball = Bodies.circle(200, 200, 25, {...ballSettings})
+        const ballA = Bodies.circle(200, 200, 25, {...ballSettings})
+        const ballB = Bodies.circle(250, 50, 25, {
+            ...ballSettings,
+            restitution:0.95,
+            friction:0.05,
+            density:0.0005,
+            render: {
+                fillStyle:"#C44D58",
+                text:{
+                    content: "Test",
+                    color: "black",
+                    size : 24,
+                    family: "Roboto",
+                },
+            },
+        });
 
         World.add(engine.world, [
           // walls
@@ -73,7 +88,7 @@ class MatterComponent extends PureComponent {
           Bodies.rectangle(cw + 10, ch / 2, 20, ch, wallSettings),
         ]);
     
-        World.add(engine.world, [boxA, boxB, ball]);
+        World.add(engine.world, [boxA, boxB, ballA, ballB]);
     
         // add mouse control
         const mouse = Mouse.create(render.canvas),
