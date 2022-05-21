@@ -73,11 +73,18 @@ class MatterComponent extends PureComponent {
         for (let page_key in pages) {
             let page = pages[page_key]
             console.log(page.name);
-            let bodyType = Common.choose(["rectangle", "circle"]);
-            let bodySize = page.name.length * 10;
+            let page_size_base = 10;
+            if (page.size === "normal") {
+                page_size_base = 15;
+            }
+            if (page.size === "large") {
+                page_size_base = 20;
+            }
+            let bodySize = page.name.length * page_size_base;
             let x_init = Common.random(0, cw);
             let y_init = Common.random(0, ch);
             let body;
+            let bodyType = Common.choose(["rectangle", "circle"]);
             if (bodyType === "rectangle") {
                 bodySize = bodySize * 2;
                 body = Bodies.rectangle(x_init, y_init, bodySize, bodySize, {
