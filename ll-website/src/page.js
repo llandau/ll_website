@@ -5,17 +5,21 @@ export const PageCategories = {
     Career: "Career",
 }
 
+export const PageSizes = {
+    Small: "small",
+    Normal: "normal",
+    Large: "large",
+}
+
 export class Page {
-    id = ""
     name = ""
-    weight = 50 // 0 to 100
+    size = PageSizes.Normal
     category = PageCategories.General
     text = ""
 
-    constructor(name, weight, category, text) {
-        this.id = name.toLowerCase()
+    constructor(name, size, category, text) {
         this.name = name;
-        this.weight = weight;
+        this.size = size;
         this.category = category;
         this.text = text;
     }

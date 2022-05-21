@@ -10,6 +10,7 @@ import {
     Bodies, 
     World,
     Events,
+    Query,
 } from 'matter-js';
 import { Render } from "./MyRenderer.js";
 import './MatterComponent.css';
@@ -68,7 +69,9 @@ class MatterComponent extends PureComponent {
             density: 0.0005,
         };
 
-        for (let page of pages) {
+        let bodies = []
+        for (let page_key in pages) {
+            let page = pages[page_key]
             console.log(page.name);
             let bodyType = Common.choose(["rectangle", "circle"]);
             let bodySize = page.name.length * 10;
@@ -79,7 +82,7 @@ class MatterComponent extends PureComponent {
                 bodySize = bodySize * 2;
                 body = Bodies.rectangle(x_init, y_init, bodySize, bodySize, {
                     ...bodySettings,
-                    id: page.id,
+                    id: page_key,
                     render: {
                         text:{
                             content: page.name,
@@ -92,7 +95,7 @@ class MatterComponent extends PureComponent {
             } else { // circle
                 body = Bodies.circle(x_init, y_init, bodySize, {
                     ...bodySettings,
-                    id: page.id,
+                    id: page_key,
                     render: {
                         text:{
                             content: page.name,
@@ -105,6 +108,7 @@ class MatterComponent extends PureComponent {
             }
 
             World.add(engine.world, body);
+            bodies.push(body);
         }
 
         // add mouse control
@@ -121,9 +125,14 @@ class MatterComponent extends PureComponent {
     
         World.add(engine.world, mouseConstraint);
     
-        // Events.on(mouseConstraint, "mousedown", function(event) {
-        //   World.add(engine.world, Bodies.circle(150, 50, 30, { restitution: 0.7 }));
-        // });
+        Events.on(mouseConstraint, "mouseup", event => {
+            let clicked_body = Query.point(bodies, event.mouse.position);
+            if (clicked_body.length > 0) {
+                let page_key = clicked_body[0].id
+                let page = pages[page_key]
+                console.log(page.text)
+            }
+        });
 
         // run the renderer
         Render.run(render);
