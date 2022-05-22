@@ -22,20 +22,27 @@ class MatterComponent extends PureComponent {
         super(props);
         this.state = {}
         this.scene = createRef();
-        this.isRunning = false
+        this.isRunning = false;
+    }
+
+    getWidth() {
+        console.log("getWidth: " + document.body.clientWidth) // 896
+        return document.body.clientWidth;
+    }
+
+    getHeight() {
+        console.log("getHeight: " + document.body.clientHeight) // 509
+        return document.body.clientHeight;
     }
 
     componentDidMount() {
         if (this.isRunning) { return; }
-        console.log("componentDidMount")
+        console.log("componentDidMount");
+
+        const cw = this.getWidth();
+        const ch = this.getHeight();
 
         const engine = Engine.create();
-
-        const cw = document.body.clientWidth
-        const ch = document.body.clientHeight
-    
-        console.log("cw: " + cw) // 896
-        console.log("ch: " + ch) // 509
 
         const render = Render.create({
             element: this.scene.current,
@@ -48,9 +55,61 @@ class MatterComponent extends PureComponent {
             }
         });
 
+        this.renderPageBodies(engine);
+
+        // add mouse control
+        const mouse = Mouse.create(render.canvas),
+        mouseConstraint = MouseConstraint.create(engine, {
+            mouse: mouse,
+            constraint: {
+                stiffness: 0.2,
+                render: {
+                    visible: false
+                }
+            }
+        });
+    
+        World.add(engine.world, mouseConstraint);
+    
+        Events.on(mouseConstraint, "mouseup", event => {
+            let clicked_body = Query.point(engine.world.bodies, event.mouse.position);
+            if (clicked_body.length > 0) {
+                let page_key = clicked_body[0].id
+                let page = pages[page_key]
+                console.log("page clicked: " + page.text)
+                this.props.onPageSelected(page);
+            }
+        });
+
+        // run the renderer
+        Render.run(render);
+
+        // create runner
+        const runner = Runner.create();
+
+        // run the engine
+        Runner.run(runner, engine);
+
+        this.isRunning = true;
+
+        this.setState({
+            render: render,
+        })
+        // render.engine.world.bodies
+    }
+
+    renderPageBodies(engine) {
+        console.log("renderPageBodies");
+
+        const cw = this.getWidth();
+        const ch = this.getHeight();
+
         const wallSettings = {
             isStatic: true
         };
+
+        // remove all existing bodies
+        World.remove(engine.world, engine.world.bodies);
 
         World.add(engine.world, [
             // walls, width is 40, with -20 'outside' the bounds
@@ -69,7 +128,6 @@ class MatterComponent extends PureComponent {
             density: 0.0005,
         };
 
-        let bodies = []
         for (let page_key in pages) {
             let page = pages[page_key]
             console.log(page.name);
@@ -123,52 +181,7 @@ class MatterComponent extends PureComponent {
             }
 
             World.add(engine.world, body);
-            bodies.push(body);
         }
-
-        // add mouse control
-        const mouse = Mouse.create(render.canvas),
-          mouseConstraint = MouseConstraint.create(engine, {
-            mouse: mouse,
-            constraint: {
-              stiffness: 0.2,
-              render: {
-                visible: false
-              }
-            }
-        });
-    
-        World.add(engine.world, mouseConstraint);
-    
-        Events.on(mouseConstraint, "mouseup", event => {
-            let clicked_body = Query.point(bodies, event.mouse.position);
-            if (clicked_body.length > 0) {
-                let page_key = clicked_body[0].id
-                let page = pages[page_key]
-                console.log(page.text)
-                this.props.onPageSelected(page);
-            }
-        });
-
-        // run the renderer
-        Render.run(render);
-
-        // create runner
-        const runner = Runner.create();
-
-        // run the engine
-        Runner.run(runner, engine);
-
-        this.isRunning = true;
-
-        this.setState({
-            render: render
-        })
-        // render.engine.world.bodies
-    }
-
-    renderPageBodies() {
-
     }
 
     explosion = function(engine) {
@@ -191,7 +204,8 @@ class MatterComponent extends PureComponent {
     render() {
         // page filtering via this.props.pageFilter
         console.log("render");
-        
+        if (this.isRunning) { this.renderPageBodies(this.state.render.engine); }
+
         return (
         <div className="MatterComponent">
             <div ref={this.scene} style={{ height: '450px' }} />

@@ -11,7 +11,7 @@ export class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pageFilter: "Career", // "all",
+      pageFilter: "all", // "Career",
       selectedPage: new Page(
         "Hello", 
         PageSizes.Normal, 
