@@ -138,6 +138,7 @@ class MatterComponent extends PureComponent {
                 let page_key = clicked_body[0].id
                 let page = pages[page_key]
                 console.log(page.text)
+                this.props.onPageSelected(page);
             }
         });
 

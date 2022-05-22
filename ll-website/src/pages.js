@@ -42,7 +42,7 @@ export const pages = {
             "Zoe",
             PageSizes.Large, 
             PageCategories.Personal, 
-            "Zoe Lily Landau! That's my girl!"
+            "Zoe, that's my girl! <a href=\"https://photos.app.goo.gl/7rYqEcnj6FUokD2F6\">Photos!</a>"
         ),
     "eugene": 
         new Page(
