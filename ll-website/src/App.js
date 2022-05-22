@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { Component } from "react";
 import logo from './images/ll_logo.png';
@@ -25,6 +26,7 @@ export class App extends Component {
   }
 
   updatePageFilter = (pageCategory) => {
+    console.log("updatePageFilter: " + pageCategory)
     this.setState({pageFilter: pageCategory});
   }
 
