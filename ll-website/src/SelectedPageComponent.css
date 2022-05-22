@@ -1,0 +1,11 @@
+
+.SelectedPageComponent {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+
+.SelectedPageComponent p {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}

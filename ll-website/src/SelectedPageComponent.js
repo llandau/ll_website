@@ -1,3 +1,4 @@
+import './SelectedPageComponent.css';
 import { Component } from "react";
 import parse from 'html-react-parser'
 

@@ -16,6 +16,8 @@ import { Render } from "./MyRenderer.js";
 import './MatterComponent.css';
 import { pages } from "./pages.js"
 
+const FONT_FAMILY = "Palatino, Verdana, Tahoma, Arial, sans-serif"; // see App.css
+
 class MatterComponent extends PureComponent {
 
     constructor(props) {
@@ -26,13 +28,13 @@ class MatterComponent extends PureComponent {
     }
 
     getWidth() {
-        console.log("getWidth: " + document.body.clientWidth) // 896
-        return document.body.clientWidth;
+        console.log("getWidth: " + document.body.clientWidth) // 1280
+        return document.body.clientWidth * 0.7; // set to 70% in App.css
     }
 
     getHeight() {
-        console.log("getHeight: " + document.body.clientHeight) // 509
-        return document.body.clientHeight;
+        console.log("getHeight: " + document.body.clientHeight) // 675
+        return 500; // setting to 500px in MatterComponent.css
     }
 
     componentDidMount() {
@@ -130,7 +132,6 @@ class MatterComponent extends PureComponent {
 
         for (let page_key in pages) {
             let page = pages[page_key]
-            console.log(page.name);
 
             // page filtering based on category
             if (this.props.pageFilter && 
@@ -161,7 +162,7 @@ class MatterComponent extends PureComponent {
                             content: page.name,
                             color: "black",
                             size : 24,
-                            family: "Roboto",
+                            family: FONT_FAMILY,
                         },
                     },
                 });
@@ -174,7 +175,7 @@ class MatterComponent extends PureComponent {
                             content: page.name,
                             color: "black",
                             size : 24,
-                            family: "Roboto",
+                            family: FONT_FAMILY,
                         },
                     },
                 });
@@ -206,9 +207,11 @@ class MatterComponent extends PureComponent {
         console.log("render");
         if (this.isRunning) { this.renderPageBodies(this.state.render.engine); }
 
+        //  style={{ height: '450px' }}
+
         return (
         <div className="MatterComponent">
-            <div ref={this.scene} style={{ height: '450px' }} />
+            <div ref={this.scene}/>
         </div>
         )
     }
