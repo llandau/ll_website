@@ -73,6 +73,14 @@ class MatterComponent extends PureComponent {
         for (let page_key in pages) {
             let page = pages[page_key]
             console.log(page.name);
+
+            // page filtering based on category
+            if (this.props.pageFilter && 
+                this.props.pageFilter !== "all" && 
+                this.props.pageFilter !== page.category) {
+                continue;
+            }
+
             let page_size_base = 10;
             if (page.size === "normal") {
                 page_size_base = 15;
@@ -159,6 +167,10 @@ class MatterComponent extends PureComponent {
         // render.engine.world.bodies
     }
 
+    renderPageBodies() {
+
+    }
+
     explosion = function(engine) {
         var bodies = Composite.allBodies(engine.world);
 
@@ -177,6 +189,9 @@ class MatterComponent extends PureComponent {
     };
 
     render() {
+        // page filtering via this.props.pageFilter
+        console.log("render");
+        
         return (
         <div className="MatterComponent">
             <div ref={this.scene} style={{ height: '450px' }} />

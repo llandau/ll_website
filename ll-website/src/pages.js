@@ -26,7 +26,7 @@ export const pages = {
     "javascript": 
         new Page(
             "JavaScript", 
-            PageSizes.Normal, 
+            PageSizes.Small, 
             PageCategories.Career, 
             "Is JS a necessary evil? hmmm"
         ),
