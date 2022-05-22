@@ -1,6 +1,6 @@
 
 export const PageCategories = {
-    General: "General",
+    Personal: "Personal",
     Spiritual: "Spiritual",
     Career: "Career",
 }
@@ -14,7 +14,7 @@ export const PageSizes = {
 export class Page {
     name = ""
     size = PageSizes.Normal
-    category = PageCategories.General
+    category = PageCategories.Personal
     text = ""
 
     constructor(name, size, category, text) {
