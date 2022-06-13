@@ -52,4 +52,4 @@ cd /Users/leo_landau/documents/leolandau.com/ll-website
 npm start
 ```
 
-
+# Browser testing: lambdatest.com
