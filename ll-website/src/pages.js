@@ -35,7 +35,7 @@ export const pages = {
             "C++", 
             PageSizes.Small, 
             PageCategories.Career, 
-            "Be sure to `del` a `new`"
+            "Make sure to `delete` `new` objects"
         ),
     "zoe": 
         new Page(
@@ -49,41 +49,49 @@ export const pages = {
             "Eugene",
             PageSizes.Small, 
             PageCategories.Personal, 
-            "Living in Eugene, OR, USA"
+            "Living in <a href=\"https://www.google.com/maps/place/Eugene,+OR/@44.060644,-123.1925906,12z/\">Eugene, OR, USA</a>"
         ),
     "harvard": 
         new Page(
             "Harvard",
             PageSizes.Small, 
             PageCategories.Personal, 
-            "Master's degree from Harvard University"
+            "Master's degree from <a href=\"https://extension.harvard.edu/\">Harvard University Extension School</a>"
         ),
     "ucsb": 
         new Page(
             "UCSB",
             PageSizes.Small, 
             PageCategories.Personal, 
-            "Bachelor's degree from UCSB"
+            "Bachelor's degree from <a href=\"https://www.ucsb.edu/\">UCSB</a>"
         ),
-    "meditation": 
+    "dzogchen": 
         new Page(
-            "Meditation", 
+            "Dzogchen", 
             PageSizes.Small, 
             PageCategories.Spiritual, 
-            "Om"
+            "<a href=\"https://wisdomexperience.org/courses/intro-dzogchen/\">The Great Perfection</a> in Tibetan Buddhism"
         ),
     "adya": 
         new Page(
             "Adyashanti", 
             PageSizes.Small, 
             PageCategories.Spiritual, 
-            "Primordial Peace anyone?"
+            "<a href=\"https://adyashanti.opengatesangha.org/\">Primordial Peace</a> anyone?"
         ),
     "et": 
         new Page(
             "Ekhart Tolle", 
             PageSizes.Small, 
             PageCategories.Spiritual, 
-            "The time is Now!"
+            "<a href=\"https://eckharttolle.com/\">ET phone home.</a> The time is Now!"
+        ),
+    "tm": 
+        new Page(
+            "TM", 
+            PageSizes.Small, 
+            PageCategories.Spiritual, 
+            "<a href=\"https://www.tm.org/\">TM</a>: what Jerry Seinfeld, Ellen DeGeneres, Tom Brady, Clint Eastwood, The Beatles, Deepak Chopra and Howard Stern have in common."
         ),
 }
+
