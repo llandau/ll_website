@@ -14,7 +14,7 @@ export const pages = {
             "PHP", 
             PageSizes.Large, 
             PageCategories.Career, 
-            "LAMP stack anyone...?"
+            "PHP (recursive acronym for PHP: Hypertext Preprocessor) ..."
         ),
     "python": 
         new Page(
@@ -65,13 +65,20 @@ export const pages = {
             PageCategories.Personal, 
             "Bachelor's degree from <a href=\"https://www.ucsb.edu/\">UCSB</a>"
         ),
-    "dzogchen": 
+    "mindful": 
         new Page(
-            "Dzogchen", 
+            "Mindfulness",
             PageSizes.Small, 
             PageCategories.Spiritual, 
-            "<a href=\"https://wisdomexperience.org/courses/intro-dzogchen/\">The Great Perfection</a> in Tibetan Buddhism"
+            "The mind is a terrible thing to lose"
         ),
+    // "dzogchen": 
+    //     new Page(
+    //         "Dzogchen", 
+    //         PageSizes.Small, 
+    //         PageCategories.Spiritual, 
+    //         "<a href=\"https://wisdomexperience.org/courses/intro-dzogchen/\">The Great Perfection</a> in Tibetan Buddhism"
+    //     ),
     "adya": 
         new Page(
             "Adyashanti", 
@@ -86,12 +93,19 @@ export const pages = {
             PageCategories.Spiritual, 
             "<a href=\"https://eckharttolle.com/\">ET phone home.</a> The time is Now!"
         ),
-    "tm": 
+    // "tm": 
+    //     new Page(
+    //         "TM", 
+    //         PageSizes.Small, 
+    //         PageCategories.Spiritual, 
+    //         "<a href=\"https://www.tm.org/\">TM</a>: what Jerry Seinfeld, Ellen DeGeneres, Tom Brady, Clint Eastwood, The Beatles, Deepak Chopra and Howard Stern have in common."
+    //     ),
+    "yoga": 
         new Page(
-            "TM", 
+            "Yoga",
             PageSizes.Small, 
             PageCategories.Spiritual, 
-            "<a href=\"https://www.tm.org/\">TM</a>: what Jerry Seinfeld, Ellen DeGeneres, Tom Brady, Clint Eastwood, The Beatles, Deepak Chopra and Howard Stern have in common."
+            "🧘 "
         ),
 }
 
