@@ -1,0 +1,28 @@
+
+.shimmer {
+    font-weight: 300;
+    /* font-size: 3rem; */
+    color: gold;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .shimmer {
+        color: rgba(0, 0, 0, 0);
+        background-size: 4rem 100%;
+        background-position: -4rem top;
+        background-repeat: no-repeat;
+        background-color: rgba(212, 175, 55);
+        background-image: linear-gradient(to bottom right, rgba(255, 140, 0, 0.3), rgba(255, 255, 255, 0.7), rgba(255, 223, 0, 0.3));
+        animation: 4s linear infinite shimmer-animation;
+        background-clip: text;
+    }
+}
+
+@keyframes shimmer-animation {
+    from {
+        background-position: -4rem top;
+    }
+    to {
+        background-position: 12.5rem top;
+    }
+}
